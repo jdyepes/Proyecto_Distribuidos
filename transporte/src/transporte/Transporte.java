@@ -35,9 +35,15 @@ public class Transporte {
         System.out.println("Ingrese la direccion ip del nodo sig a conectar *rol cliente* ");    
         String direccionSiguiente = dirNext.readLine(); 
         
+        //indica si sera el almacen que va iniciar los transportes
+        BufferedReader flagDespacho= new BufferedReader(new InputStreamReader(System.in));
+        System.out.println("Atender Despacho ? Indique Si = 1  No =0 *Iniciar Transporte* ");    
+        String IniciarDespacho = flagDespacho.readLine(); 
+        int numIniciarDespacho = Integer.parseInt(IniciarDespacho);
+        
 //        servidor.Servidor ser = new Servidor(numPuertoServidor);
 //        ser.iniciarConexionServer();
-        HiloServidor hiloSer= new HiloServidor(numPuertoServidor);     
+       HiloServidor hiloSer= new HiloServidor(numPuertoServidor,numIniciarDespacho);     
         HiloCliente hiloCli = new HiloCliente(numPuertoServidor, numPuertoSiguiente, direccionSiguiente);
        hiloCli.start();
        hiloSer.start();// falta los mensajes

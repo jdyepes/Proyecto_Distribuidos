@@ -17,15 +17,24 @@ import java.util.Collections;
  * @author Jesus Yepes
  */
 public class Servidor {
-   
+    
+    private static int despacho; // BANDERA que indica si soy el despachador
     private int portEscuchaAnterior;//= 5001;
+    private String mensajeDespacho;
 
+    public int getDespacho() {
+        return despacho;
+    }
+    
+    
     /**
      * Constructor para ingresar el puerto de escucha del nodo anterior
      * @param portEscuchaAnterior 
+     * @param flagDespacho 
      */
-    public Servidor(int portEscuchaAnterior) {
+    public Servidor(int portEscuchaAnterior,int flagDespacho) {
         this.portEscuchaAnterior = portEscuchaAnterior;
+        this.despacho= flagDespacho;// bandera si atendera despacho 1, sino 0
     }
 
     /**
@@ -54,7 +63,13 @@ public class Servidor {
                 String request = input.readLine();
                 System.out.println("Servidor recibe petición > [" + request + "]");
                 //se procesa la peticion y se espera resultado
-                String strOutput = process(request);                
+                String strOutput = process(request); 
+                int x = despacho;
+                if(x==1){
+                    mensajeDespacho="Empezando a despachar";
+                   strOutput=mensajeDespacho;
+                }
+                
                 //Se imprime en consola "servidor"
 //                System.out.println("Servidor> ");                    
            //     System.out.println("Servidor-- Resultado de petición >\"" + strOutput + "\"");
@@ -121,8 +136,12 @@ public class Servidor {
                 break;            
             
             default:
+//              int x = despacho;
+//              if(x==1)
+//                  result="Empezando a despachar";
+//              else
                 result = "La peticion no se puede resolver.";
-                break;
+              break;
         }
         return result;
     }
