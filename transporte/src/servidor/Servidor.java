@@ -25,6 +25,10 @@ public class Servidor {
     public int getDespacho() {
         return despacho;
     }
+
+    public static void setDespacho(int despacho) {
+        Servidor.despacho = despacho;
+    }
     
     
     /**
@@ -64,10 +68,11 @@ public class Servidor {
                 System.out.println("Servidor recibe petición > [" + request + "]");
                 //se procesa la peticion y se espera resultado
                 String strOutput = process(request); 
-                int x = despacho;
+                int x = getDespacho();
                 if(x==1){
                     mensajeDespacho="Empezando a despachar";
                    strOutput=mensajeDespacho;
+                    setDespacho(0);
                 }
                 
                 //Se imprime en consola "servidor"
