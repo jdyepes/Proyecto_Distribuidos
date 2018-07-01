@@ -39,7 +39,8 @@ public class Transporte {
         HiloServidor hiloSer= new HiloServidor(numPuertoServidor);     
         HiloCliente hiloCli = new HiloCliente(numPuertoServidor, numPuertoSiguiente, direccionSiguiente);
        hiloCli.start();
-       hiloSer.start();
+       hiloSer.start();// falta los mensajes
+       
     }
     
 }
