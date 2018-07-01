@@ -5,6 +5,8 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintStream;
 import java.net.Socket;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import transporte.HiloCliente;
 
 public class Cliente {
@@ -39,7 +41,7 @@ public class Cliente {
                 System.out.println("Cliente> Inicio");  
                 
                 while( !exit ) { //ciclo repetitivo 
-                      System.out.println("entro con "+serverSiguiente+" " +portSiguiente);  
+                    System.out.println("entro con "+serverSiguiente+" " +portSiguiente);  
                        
                     Socket socket = new Socket(serverSiguiente, portSiguiente);//abre socket  
                     
@@ -48,32 +50,31 @@ public class Cliente {
                     //para imprimir datos del servidor
                     PrintStream output = new PrintStream(socket.getOutputStream());                
                     //Para leer lo que escriba el usuario            
-                    BufferedReader brRequest = new BufferedReader(new InputStreamReader(System.in));            
+                    BufferedReader brRequest = new BufferedReader(new InputStreamReader(System.in));
+                    /*************************************************************/
                     System.out.println("Cliente> Escriba comando");                
-                    //captura comando escrito por el usuario
-                    String request = brRequest.readLine();   
+//                    //captura comando escrito por el usuario
+                    String request = "frase";//
+                    brRequest.readLine();   
 
                     //manda peticion al servidor               
-                    output.println(request); 
-
+//                    output.println(request); 
+                    enviarCliente( output,request);
+         /***********************************************************************/           
                     //captura respuesta del servidor e imprime
-                    String st = input.readLine(); 
+//                    String st = input.readLine(); 
+                    recibirCliente( input);
+//                    if( st != null ) 
+//                        System.out.println("Servidor> " + st );   
 
-                    if( st != null ) 
-                        System.out.println("Servidor> " + st );   
-
-                    if(request.equals("exit")) //terminar aplicacion
-                    {
-                        exit=true;                  
-                        System.out.println("Cliente> Fin de programa");    
-                    }  
+//                    if(request.equals("exit")) //terminar aplicacion
+//                    {
+//                        exit=true;                  
+//                        System.out.println("Cliente> Fin de programa");    
+//                    }  
                     socket.close();
                 }//end while                  
             } 
-           if (cont==4)
-                 {
-                    
-                 }
         }//fin try
          
          catch (IOException ex) 
@@ -89,5 +90,39 @@ public class Cliente {
              System.err.println("Hubo una excepcion no disponible " + ex.getMessage()); 
          }
     }
+    /**
+     * recibe mensajes desde el servidor
+     * @param input : buffer de recepcion del servidor (nodo siguiente)
+     * @return 
+     */
     
+    public String recibirCliente( BufferedReader input)
+    {
+        String st=null; 
+        try {
+            st = input.readLine();
+            if( st != null ) 
+                  System.out.println("Cliente: -- Servidor respondio> " + st );   
+        } catch (IOException ex) {
+            System.err.println("Ocurrio un error en recibir mensaje del servidor (nodo siguiente)");
+        }
+     return st;
+                    
+    }
+    /**
+     * 
+     * @param output
+     * @param request
+     * @return 
+     */
+ public String enviarCliente( PrintStream output,String request) {
+         //Para leer lo que escriba el usuario            
+//         BufferedReader brRequest = new BufferedReader(new InputStreamReader(System.in));
+//         System.out.println("Cliente> Escriba comando");                
+                    //captura comando escrito por el usuario
+                    //            request = brRequest.readLine();
+                    output.println(request);
+       return request;
+ }
+            
 }

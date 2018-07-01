@@ -52,12 +52,12 @@ public class Servidor {
                 PrintStream output = new PrintStream(clientSocket.getOutputStream());
                 //se lee peticion del cliente
                 String request = input.readLine();
-                System.out.println("Cliente> petición [" + request + "]");
+                System.out.println("Servidor recibe petición > [" + request + "]");
                 //se procesa la peticion y se espera resultado
                 String strOutput = process(request);                
                 //Se imprime en consola "servidor"
 //                System.out.println("Servidor> ");                    
-                System.out.println("Servidor> Resultado de petición \"" + strOutput + "\"");
+                System.out.println("Servidor-- Resultado de petición >\"" + strOutput + "\"");
                 //se imprime en cliente
                 output.flush();//vacia contenido
                 output.println(strOutput); // enviar mensaje al cliente               
