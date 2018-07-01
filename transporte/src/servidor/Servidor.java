@@ -57,7 +57,7 @@ public class Servidor {
                 String strOutput = process(request);                
                 //Se imprime en consola "servidor"
 //                System.out.println("Servidor> ");                    
-                System.out.println("Servidor-- Resultado de petición >\"" + strOutput + "\"");
+           //     System.out.println("Servidor-- Resultado de petición >\"" + strOutput + "\"");
                 //se imprime en cliente
                 output.flush();//vacia contenido
                 output.println(strOutput); // enviar mensaje al cliente               
@@ -119,7 +119,7 @@ public class Servidor {
             case "exit":                
                 result = "bye";
                 break;            
-                
+            
             default:
                 result = "La peticion no se puede resolver.";
                 break;

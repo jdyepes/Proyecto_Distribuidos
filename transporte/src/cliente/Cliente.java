@@ -1,10 +1,7 @@
 package cliente;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.PrintStream;
-import java.net.Socket;
+import java.io.*;
+import java.net.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import transporte.HiloCliente;
@@ -12,6 +9,7 @@ import transporte.HiloCliente;
 public class Cliente {
 
     
+    /***********************************************************************/
    // puerto del nodo sucesor    
     private int portSiguiente;// = 5001;
   // direccion del servidor del sucesor
@@ -56,7 +54,7 @@ public class Cliente {
            while (cont<=5)
             { 
                 System.out.println("Cliente> Inicio");  
-                
+                String myIP = InetAddress.getLocalHost().getHostAddress(); // Obtengo la ip del nodo actal
                 while( !exit ) { //ciclo repetitivo 
                     System.out.println("entro con "+serverSiguiente+" " +portSiguiente);  
                     /* modificado 1/jul/2018 Creacion del contructor para los buffers y el socket*/ 
@@ -75,7 +73,7 @@ public class Cliente {
                     /*************************************************************/
                     System.out.println("Cliente> Escriba comando");                
 //                    //captura comando escrito por el usuario
-                    String request = "frase";// por modificar
+                    String request = "frase";// por modificar leerPaquetes();
                     brRequest.readLine();   
                
                     //manda peticion al servidor               
@@ -146,5 +144,58 @@ public class Cliente {
                     output.println(request);
        return request;
  }
-            
+ 
+    /**
+     * /@see http://chuwiki.chuidiang.org/index.php?title=Lectura_y_Escritura_de_Ficheros_en_Java
+     * @return 
+     */
+ public String leerPaquetes(){
+      File archivo = null;
+      FileReader fr = null;
+      BufferedReader br = null;
+      String linea =null;
+      try {
+         // Apertura del fichero y creacion de BufferedReader para poder
+         // hacer una lectura comoda (disponer del metodo readLine()).
+         archivo = new File ("src/paquetes/paquetes.txt");
+         fr = new FileReader (archivo);
+         br = new BufferedReader(fr);
+
+         // Lectura del fichero
+        linea=br.readLine();
+        // while((linea=br.readLine())!=null)
+            //System.out.println(linea);
+      }
+      catch(Exception e){
+        // e.printStackTrace();
+         System.err.println(e);
+      }finally{
+         // En el finally cerramos el fichero, para asegurarnos
+         // que se cierra tanto si todo va bien como si salta 
+         // una excepcion.
+         try{                    
+            if( null != fr ){   
+               fr.close();     
+            }                  
+         }catch (Exception e2){ 
+           // e2.printStackTrace();
+            System.err.println(e2);
+         }
+      }    
+     return linea;
+
+ }
+// /**
+//  * envia los
+//  * @return 
+//  */
+// public String enviarPaquetes()
+// {
+//     String contenidoPaquete = leerPaquetes();
+//     String paquetes []= contenidoPaquete.split("$");
+//     
+//     return"";
+// }
+ 
+ 
 }
