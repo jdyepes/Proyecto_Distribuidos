@@ -1,5 +1,6 @@
 package transporte;
 
+import cliente.Cliente;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -41,6 +42,7 @@ public class Transporte {
        hiloCli.start();
        hiloSer.start();// falta los mensajes
        
+       System.out.println("mensaje que circula por el anillo desde el tranporte"+ hiloCli.mensajeHaciaServidor);
     }
     
 }

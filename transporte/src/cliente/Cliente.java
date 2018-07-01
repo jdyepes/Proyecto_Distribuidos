@@ -16,7 +16,21 @@ public class Cliente {
     private int portSiguiente;// = 5001;
   // direccion del servidor del sucesor
     private String serverSiguiente;// = "localhost";
-    int cont =0;    
+    int cont =0;  // intentos de reconexion con el servidor  
+    
+    /**********************************************************************/
+    private BufferedReader input ;
+    private PrintStream output;
+    private Socket socket;
+    public String mensajeHaciaServidor;
+
+    
+    public Cliente(BufferedReader input, PrintStream output, Socket socket) {
+        this.input = input;
+        this.output = output;
+        this.socket = socket;
+    }
+        
     /**
      * Constructor
      * @param PORT
@@ -25,6 +39,10 @@ public class Cliente {
     public Cliente(int PORT, String SERVER) {
         this.portSiguiente = PORT;
         this.serverSiguiente = SERVER;
+    }
+
+    public Cliente() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
     /**
      * @since 30/jun/2018
@@ -42,24 +60,29 @@ public class Cliente {
                 
                 while( !exit ) { //ciclo repetitivo 
                     System.out.println("entro con "+serverSiguiente+" " +portSiguiente);  
-                       
-                    Socket socket = new Socket(serverSiguiente, portSiguiente);//abre socket  
+                    /* modificado 1/jul/2018 Creacion del contructor para los buffers y el socket*/ 
+                    socket = new Socket(serverSiguiente, portSiguiente);//abre socket 
+                    input = new BufferedReader( new InputStreamReader(socket.getInputStream()));
+                    output = new PrintStream(socket.getOutputStream());
+                      //Socket socket = new Socket(serverSiguiente, portSiguiente);//abre socket 
+//                    //Para leer lo que envie el servidor      
+//                    BufferedReader input = new BufferedReader( new InputStreamReader(socket.getInputStream()));                
+//                    //para imprimir datos del servidor
+//                    PrintStream output = new PrintStream(socket.getOutputStream());   
                     
-                    //Para leer lo que envie el servidor      
-                    BufferedReader input = new BufferedReader( new InputStreamReader(socket.getInputStream()));                
-                    //para imprimir datos del servidor
-                    PrintStream output = new PrintStream(socket.getOutputStream());                
+                    
                     //Para leer lo que escriba el usuario            
                     BufferedReader brRequest = new BufferedReader(new InputStreamReader(System.in));
                     /*************************************************************/
                     System.out.println("Cliente> Escriba comando");                
 //                    //captura comando escrito por el usuario
-                    String request = "frase";//
+                    String request = "frase";// por modificar
                     brRequest.readLine();   
 
                     //manda peticion al servidor               
 //                    output.println(request); 
-                    enviarCliente( output,request);
+                    mensajeHaciaServidor= enviarCliente( output,request); /// falta colocar mi ip local de la maquina
+                    //para que transporte sepa origen destino del mensaje
          /***********************************************************************/           
                     //captura respuesta del servidor e imprime
 //                    String st = input.readLine(); 
@@ -90,12 +113,12 @@ public class Cliente {
              System.err.println("Hubo una excepcion no disponible " + ex.getMessage()); 
          }
     }
+    
     /**
      * recibe mensajes desde el servidor
      * @param input : buffer de recepcion del servidor (nodo siguiente)
      * @return 
-     */
-    
+     */    
     public String recibirCliente( BufferedReader input)
     {
         String st=null; 

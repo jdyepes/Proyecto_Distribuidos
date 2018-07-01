@@ -14,6 +14,8 @@ public class HiloCliente extends Thread{
     private int numPuertoSiguiente; // puerto del siguinete nodo rol de cliente
     String direccionSiguiente;// dir ip del nod sigiente en rol de cliente
     
+    public String mensajeHaciaServidor;
+    
    /**
     * Constructor
     * @param puertoServidorAnterior
@@ -31,6 +33,8 @@ public class HiloCliente extends Thread{
 //        servidor.Servidor ser = new Servidor(numPuertoServidor);
         cliente.Cliente cli = new Cliente(numPuertoSiguiente, direccionSiguiente);
 //        ser.iniciarConexionServer();
+
+       System.out.println("mensaje que circula por el anillo desde el hiloCliente"+ cli.mensajeHaciaServidor);
         
         try {
             cli.iniciarConexionCliente();
