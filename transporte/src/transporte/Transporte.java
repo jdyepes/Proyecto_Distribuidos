@@ -42,7 +42,7 @@ public class Transporte {
        hiloCli.start();
        hiloSer.start();// falta los mensajes
        
-       System.out.println("mensaje que circula por el anillo desde el tranporte"+ hiloCli.mensajeHaciaServidor);
+      // System.out.println("mensaje que circula por el anillo desde el tranporte"+ hiloCli.mensajeHaciaServidor);
     }
     
 }

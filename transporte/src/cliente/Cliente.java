@@ -41,18 +41,17 @@ public class Cliente {
         this.serverSiguiente = SERVER;
     }
 
-    public Cliente() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
+//    public Cliente() {
+//        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+//    }
+    
     /**
      * @since 30/jun/2018
      * @see http://www.jc-mouse.net/proyectos/ejemplo-socket-java-clienteservidor
      * @throws Exception 
      */
     public void iniciarConexionCliente() throws Exception {
-    	boolean exit=false;//bandera para controlar ciclo del programa
-        
-        
+    	boolean exit=false;//bandera para controlar ciclo del programa        
          try {  
            while (cont<=5)
             { 
@@ -78,7 +77,7 @@ public class Cliente {
 //                    //captura comando escrito por el usuario
                     String request = "frase";// por modificar
                     brRequest.readLine();   
-
+               
                     //manda peticion al servidor               
 //                    output.println(request); 
                     mensajeHaciaServidor= enviarCliente( output,request); /// falta colocar mi ip local de la maquina
@@ -132,7 +131,7 @@ public class Cliente {
      return st;
                     
     }
-    /**
+    /** 
      * 
      * @param output
      * @param request
