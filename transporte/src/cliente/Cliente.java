@@ -74,7 +74,8 @@ public class Cliente {
                     System.out.println("Cliente> Escriba comando");                
 //                    //captura comando escrito por el usuario
                     String request = "frase";// por modificar leerPaquetes();
-                    brRequest.readLine();   
+                   // brRequest.readLine();   
+                   Thread.sleep(5000);// cada 5 segundos envio el 
                
                     //manda peticion al servidor               
 //                    output.println(request); 
@@ -84,6 +85,8 @@ public class Cliente {
                     //captura respuesta del servidor e imprime
 //                    String st = input.readLine(); 
                     recibirCliente( input);
+//                    Recibir receive = new Recibir();
+//                    receive.start();
 //                    if( st != null ) 
 //                        System.out.println("Servidor> " + st );   
 
@@ -111,6 +114,15 @@ public class Cliente {
          }
     }
     
+    public class Recibir extends Thread
+    {
+        @Override
+        public void run()
+        {
+            System.out.println("recibiendo transporte");
+            String recibirCliente = recibirCliente(input);
+        }
+    }
     /**
      * recibe mensajes desde el servidor
      * @param input : buffer de recepcion del servidor (nodo siguiente)
@@ -130,7 +142,7 @@ public class Cliente {
                     
     }
     /** 
-     * 
+     * envia mensaje hacia el servidor
      * @param output
      * @param request
      * @return 
