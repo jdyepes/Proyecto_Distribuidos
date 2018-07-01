@@ -3,6 +3,7 @@ package transporte;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import servidor.Servidor;
 
 /**
  *
@@ -33,8 +34,12 @@ public class Transporte {
         System.out.println("Ingrese la direccion ip del nodo sig a conectar *rol cliente* ");    
         String direccionSiguiente = dirNext.readLine(); 
         
-        HiloC_S hilo = new HiloC_S(numPuertoServidor, numPuertoSiguiente, direccionSiguiente);
-        hilo.start();
+//        servidor.Servidor ser = new Servidor(numPuertoServidor);
+//        ser.iniciarConexionServer();
+        HiloServidor hiloSer= new HiloServidor(numPuertoServidor);     
+        HiloCliente hiloCli = new HiloCliente(numPuertoServidor, numPuertoSiguiente, direccionSiguiente);
+       hiloCli.start();
+       hiloSer.start();
     }
     
 }

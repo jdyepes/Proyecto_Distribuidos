@@ -37,6 +37,7 @@ public class Servidor {
         try {
             //Socket de servidor para esperar peticiones de la red
             //Escuchara peticiones de su predecesor (nodo anterior)
+            System.out.println("servidor levantado en el puerto "+portEscuchaAnterior);
             ServerSocket serverSocket = new ServerSocket(portEscuchaAnterior);
             System.out.println("Servidor> Servidor iniciado ");
             System.out.println("Servidor> En espera de cliente...");    
