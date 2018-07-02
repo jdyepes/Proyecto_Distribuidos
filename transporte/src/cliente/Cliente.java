@@ -61,6 +61,7 @@ public class Cliente {
                     socket = new Socket(serverSiguiente, portSiguiente);//abre socket 
                     input = new BufferedReader( new InputStreamReader(socket.getInputStream()));
                     output = new PrintStream(socket.getOutputStream());
+                 
                       //Socket socket = new Socket(serverSiguiente, portSiguiente);//abre socket 
 //                    //Para leer lo que envie el servidor      
 //                    BufferedReader input = new BufferedReader( new InputStreamReader(socket.getInputStream()));                
@@ -73,9 +74,9 @@ public class Cliente {
                     /*************************************************************/
                     System.out.println("Cliente> Escriba comando");                
 //                    //captura comando escrito por el usuario
-                    String request = "frase";// por modificar leerPaquetes();
+                    String request = "hola";// por modificar leerPaquetes();
                    // brRequest.readLine();   
-                   Thread.sleep(5000);// cada 5 segundos envio el 
+               //     Thread.sleep(5000);// cada 5 segundos envio el 
                
                     //manda peticion al servidor               
 //                    output.println(request); 
@@ -84,9 +85,9 @@ public class Cliente {
          /***********************************************************************/           
                     //captura respuesta del servidor e imprime
 //                    String st = input.readLine(); 
-                    recibirCliente( input);
-//                    Recibir receive = new Recibir();
-//                    receive.start();
+//                    recibirCliente( input);
+                      Recibir receive = new Recibir(input, output, socket);
+                      receive.start();
 //                    if( st != null ) 
 //                        System.out.println("Servidor> " + st );   
 
@@ -95,7 +96,7 @@ public class Cliente {
 //                        exit=true;                  
 //                        System.out.println("Cliente> Fin de programa");    
 //                    }  
-                    socket.close();
+                  //  socket.close();
                 }//end while                  
             } 
         }//fin try
@@ -116,12 +117,22 @@ public class Cliente {
     
     public class Recibir extends Thread
     {
+
+        private final BufferedReader input;
+        private final PrintStream output;
+        private final Socket socket;
         @Override
         public void run()
         {
             System.out.println("recibiendo transporte");
             String recibirCliente = recibirCliente(input);
         }
+          public Recibir(BufferedReader input, PrintStream output, Socket socket) {
+                this.input = input;
+                this.output = output;
+                this.socket = socket;
+            }
+        
     }
     /**
      * recibe mensajes desde el servidor
@@ -136,7 +147,7 @@ public class Cliente {
             if( st != null ) 
                   System.out.println("Cliente: -- Servidor respondio> " + st );   
         } catch (IOException ex) {
-            System.err.println("Ocurrio un error en recibir mensaje del servidor (nodo siguiente)");
+            System.err.println("Ocurrio un error en recibir mensaje del servidor (nodo siguiente)"+ex);
         }
      return st;
                     
