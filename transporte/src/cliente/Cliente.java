@@ -81,10 +81,13 @@ public class Cliente {
                     //manda peticion al servidor               
 //                    output.println(request); 
                     mensajeHaciaServidor= enviarCliente( output,request); /// falta colocar mi ip local de la maquina
+                    
                     //para que transporte sepa origen destino del mensaje
          /***********************************************************************/           
                     //captura respuesta del servidor e imprime
 //                    String st = input.readLine(); 
+//                    recibirCliente( input);
+//                    recibirCliente( input);
 //                    recibirCliente( input);
                       Recibir receive = new Recibir(input, output, socket);
                       receive.start();
@@ -125,7 +128,11 @@ public class Cliente {
         public void run()
         {
             System.out.println("recibiendo transporte");
-            String recibirCliente = recibirCliente(input);
+            String recibirCliente =recibirCliente(input);
+         
+
+            recibirCliente = recibirCliente(input);
+            recibirCliente = recibirCliente(input);
         }
           public Recibir(BufferedReader input, PrintStream output, Socket socket) {
                 this.input = input;

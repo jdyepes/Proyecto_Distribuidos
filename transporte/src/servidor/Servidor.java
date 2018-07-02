@@ -78,7 +78,9 @@ public class Servidor {
                 BufferedReader input = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
                 //para imprimir datos de salida                
                 PrintStream output = new PrintStream(clientSocket.getOutputStream());
-                
+                PrintStream output1 = new PrintStream(clientSocket.getOutputStream());//T1
+                PrintStream output2 = new PrintStream(clientSocket.getOutputStream());//T2
+                PrintStream output3 = new PrintStream(clientSocket.getOutputStream());//T3
                 //se lee peticion del cliente
                 String request = input.readLine();
                 System.out.println("Servidor recibe petición > [" + request + "]");
@@ -86,34 +88,21 @@ public class Servidor {
                 String strOutput = process(request); 
                 int x = getDespacho();
                 //iniciar transporte
+                 output.flush();//vacia contenido
                 if(x==1 && strOutput.equals("hola")){ 
-                        //Desde el transporte 1 hasta el 3
-//                        mensajeDespacho="Empezando a despachar";
-//                        strOutput=mensajeDespacho;
-//                         output.println(strOutput); // enviar mensaje al cliente 
-//                         request = input.readLine();
 
-                        for(int cont=1;cont<=3;cont++)
-                        {  
-                           
-                            mensajeDespacho= mensajeTransporte(cont);
-                        //    System.out.println(mensajeDespacho);
-                             output.flush();//vacia contenido
-                             output.println(mensajeDespacho); // enviar mensaje al cliente 
+                        Thread.sleep(1000);// cada 5 segundos envio
+                        output1.flush();//vacia contenido
+                        output1.println(mensajeTransporte(1)); // enviar mensaje al cliente 
+                        Thread.sleep(5000);// cada 5 segundos envio                            
+                        output2.println(mensajeTransporte(2)); // enviar mensaje al cliente 
+                        Thread.sleep(5000);// cada 5 segundos envio
+                        output3.println(mensajeTransporte(3)); // enviar mensaje al cliente 
+                        Thread.sleep(5000);// cada 5 segundos envio
+//                             cont++;
+                        setDespacho(0);
                              
-                             
-                             Thread.sleep(2000);// cada 5 segundos envio
-                             //request = input.readLine();
-                        }
-                       output.flush();//vacia contenido
-//                   output.println(strOutput); // enviar mensaje al cliente      
-//                    setDespacho(0);
                 }
-//                setDespacho(0);
-                
-                //Se imprime en consola "servidor"
-//                System.out.println("Servidor> ");                    
-           //     System.out.println("Servidor-- Resultado de petición >\"" + strOutput + "\"");
                 //se imprime en cliente
                 output.flush();//vacia contenido
                 output.println(strOutput); // enviar mensaje al cliente               
@@ -134,13 +123,14 @@ public class Servidor {
      * @return 
      */
     public String mensajeTransporte(int numeroTransporte){
+        System.out.println("entro a transporte con "+numeroTransporte);
         String mens=null;
         if (numeroTransporte==1) 
-            mens=T1;
+          return   mens=T1;
         else if(numeroTransporte==2)
-            mens=T2;
+          return   mens=T2;
         else if(numeroTransporte==3)
-            mens=T3;
+           return  mens=T3;
         
         return mens;
     }
