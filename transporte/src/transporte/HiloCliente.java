@@ -34,7 +34,7 @@ public class HiloCliente extends Thread{
         cliente.Cliente cli = new Cliente(numPuertoSiguiente, direccionSiguiente);
 //        ser.iniciarConexionServer();
 
-       System.out.println("mensaje que circula por el anillo desde el hiloCliente"+ cli.mensajeHaciaServidor);
+     //  System.out.println("mensaje que circula por el anillo desde el hiloCliente"+ cli.mensajeHaciaServidor);
         
         try {
             cli.iniciarConexionCliente();

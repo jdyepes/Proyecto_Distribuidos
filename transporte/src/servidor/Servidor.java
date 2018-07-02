@@ -17,17 +17,45 @@ import java.util.Collections;
  * @author Jesus Yepes
  */
 public class Servidor {
-   
+    /******************constantes para cada transporte****/
+    
+    static final String T1 = "localhost:192.168.0.108:holaT1$localhost:192.168.0.100:T1hola2$localhost:192.168.0.101:T1hola3$localhost:192.168.0.108:T1hola4$localhost:192.168.0.108:T1hola5";
+    static final String T2 = "localhost:192.168.0.108:holaT2$localhost:192.168.0.100:T2hola2$localhost:192.168.0.101:T2hola3$localhost:192.168.0.108:T2hola4$localhost:192.168.0.108:T2hola5";
+    static final String T3 = "localhost:192.168.0.108:holaT3$localhost:192.168.0.100:T3hola2$localhost:192.168.0.101:T3hola3$localhost:192.168.0.108:T3lhola4$ocalhost:192.168.0.108:T3hola5";
+    /*****************************************************************/
+    private static int despacho; // BANDERA que indica si soy el despachador
     private int portEscuchaAnterior;//= 5001;
+    private String mensajeDespacho;
 
+    public int getDespacho() {
+        return despacho;
+    }
+
+    public static void setDespacho(int despacho) {
+        Servidor.despacho = despacho;
+    }
+    
+    
     /**
      * Constructor para ingresar el puerto de escucha del nodo anterior
      * @param portEscuchaAnterior 
+     * @param flagDespacho 
      */
-    public Servidor(int portEscuchaAnterior) {
+    public Servidor(int portEscuchaAnterior,int flagDespacho) {
         this.portEscuchaAnterior = portEscuchaAnterior;
+        this.despacho= flagDespacho;// bandera si atendera despacho 1, sino 0
+    }
+    /**
+     * Constructor para generar el transporte/ despacho
+     * Inicia o cambia cada 5 seg el mensaje desde la clase DespachoHilo
+     * @param mensajeDespacho 
+     */
+    public Servidor(String mensajeDespacho) {
+        this.mensajeDespacho = mensajeDespacho;
     }
 
+    
+    
     /**
      *  @since 30/jun/2018
      * @see http://www.jc-mouse.net/proyectos/ejemplo-socket-java-clienteservidor
@@ -54,10 +82,25 @@ public class Servidor {
                 String request = input.readLine();
                 System.out.println("Servidor recibe petición > [" + request + "]");
                 //se procesa la peticion y se espera resultado
-                String strOutput = process(request);                
+                String strOutput = process(request); 
+                int x = getDespacho();
+                //iniciar transporte
+                if(x==1){
+                        //Desde el transporte 1 hasta el 3
+                        mensajeDespacho="Empezando a despachar";
+                        for(int cont=0;cont<3;cont++)
+                        {   
+                            mensajeDespacho= mensajeTransporte(cont);
+                             strOutput=mensajeDespacho;
+                            Thread.sleep(5000);// cada 5 segundos envio el 
+                        }
+//                        strOutput=mensajeDespacho;
+                    setDespacho(0);
+                }
+                
                 //Se imprime en consola "servidor"
 //                System.out.println("Servidor> ");                    
-                System.out.println("Servidor-- Resultado de petición >\"" + strOutput + "\"");
+           //     System.out.println("Servidor-- Resultado de petición >\"" + strOutput + "\"");
                 //se imprime en cliente
                 output.flush();//vacia contenido
                 output.println(strOutput); // enviar mensaje al cliente               
@@ -71,6 +114,28 @@ public class Servidor {
             System.err.println(ex.getMessage());
         }
         
+    }
+    /**
+     * Generar mensaje para cada transporte
+     * @param numeroTransporte
+     * @return 
+     */
+    public String mensajeTransporte(int numeroTransporte){
+        String mens=null;
+        switch (numeroTransporte) {
+            case 0:
+                mens= T1;
+                break;
+            case 1:
+                mens= T2;
+                break;
+            case 2:
+                mens= T3;
+                break;
+            default:
+                break;
+        }
+        return mens;
     }
     
     /**
@@ -119,10 +184,14 @@ public class Servidor {
             case "exit":                
                 result = "bye";
                 break;            
-                
+            
             default:
+//              int x = despacho;
+//              if(x==1)
+//                  result="Empezando a despachar";
+//              else
                 result = "La peticion no se puede resolver.";
-                break;
+              break;
         }
         return result;
     }
