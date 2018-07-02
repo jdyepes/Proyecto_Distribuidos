@@ -78,6 +78,7 @@ public class Servidor {
                 BufferedReader input = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
                 //para imprimir datos de salida                
                 PrintStream output = new PrintStream(clientSocket.getOutputStream());
+                
                 //se lee peticion del cliente
                 String request = input.readLine();
                 System.out.println("Servidor recibe petición > [" + request + "]");
@@ -85,18 +86,30 @@ public class Servidor {
                 String strOutput = process(request); 
                 int x = getDespacho();
                 //iniciar transporte
-                if(x==1){
+                if(x==1 && strOutput.equals("hola")){ 
                         //Desde el transporte 1 hasta el 3
-                        mensajeDespacho="Empezando a despachar";
-                        for(int cont=0;cont<3;cont++)
-                        {   
-                            mensajeDespacho= mensajeTransporte(cont);
-                             strOutput=mensajeDespacho;
-                            Thread.sleep(5000);// cada 5 segundos envio el 
-                        }
+//                        mensajeDespacho="Empezando a despachar";
 //                        strOutput=mensajeDespacho;
-                    setDespacho(0);
+//                         output.println(strOutput); // enviar mensaje al cliente 
+//                         request = input.readLine();
+
+                        for(int cont=1;cont<=3;cont++)
+                        {  
+                           
+                            mensajeDespacho= mensajeTransporte(cont);
+                        //    System.out.println(mensajeDespacho);
+                             output.flush();//vacia contenido
+                             output.println(mensajeDespacho); // enviar mensaje al cliente 
+                             
+                             
+                             Thread.sleep(2000);// cada 5 segundos envio
+                             //request = input.readLine();
+                        }
+                       output.flush();//vacia contenido
+//                   output.println(strOutput); // enviar mensaje al cliente      
+//                    setDespacho(0);
                 }
+//                setDespacho(0);
                 
                 //Se imprime en consola "servidor"
 //                System.out.println("Servidor> ");                    
@@ -122,19 +135,13 @@ public class Servidor {
      */
     public String mensajeTransporte(int numeroTransporte){
         String mens=null;
-        switch (numeroTransporte) {
-            case 0:
-                mens= T1;
-                break;
-            case 1:
-                mens= T2;
-                break;
-            case 2:
-                mens= T3;
-                break;
-            default:
-                break;
-        }
+        if (numeroTransporte==1) 
+            mens=T1;
+        else if(numeroTransporte==2)
+            mens=T2;
+        else if(numeroTransporte==3)
+            mens=T3;
+        
         return mens;
     }
     
@@ -180,6 +187,9 @@ public class Servidor {
             case "libro":
                 Collections.shuffle(booksList);
                 result = booksList.get(0);
+                break;
+            case "hola":                
+                result = "hola";
                 break;
             case "exit":                
                 result = "bye";
