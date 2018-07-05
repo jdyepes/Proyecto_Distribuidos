@@ -22,31 +22,36 @@ public class Transporte {
         BufferedReader portServer = new BufferedReader(new InputStreamReader(System.in));
         System.out.println("Ingrese su puerto de escucha *rol servidor* ");             
         String puertoServidorAnterior = portServer.readLine(); 
-        int numPuertoServidor = Integer.parseInt(puertoServidorAnterior);
+//        int numPuertoServidor = Integer.parseInt(puertoServidorAnterior);
+        int numPuertoServidor = 5000;
         
         //indica el puerto y direccion ip al nodo siguiente para conectarse
         BufferedReader portNext = new BufferedReader(new InputStreamReader(System.in));
         System.out.println("Ingrese el puerto del nodo sig a conectar *rol cliente* ");    
         String puertoSiguiente = portNext.readLine(); 
-        int numPuertoSiguiente = Integer.parseInt(puertoSiguiente);
+       // int numPuertoSiguiente = Integer.parseInt(puertoSiguiente);
+        int numPuertoSiguiente = 5000;
         
         //indica  direccion ip al nodo siguiente para conectarse
         BufferedReader dirNext = new BufferedReader(new InputStreamReader(System.in));
         System.out.println("Ingrese la direccion ip del nodo sig a conectar *rol cliente* ");    
-        String direccionSiguiente = dirNext.readLine(); 
-        
+       // String direccionSiguiente = dirNext.readLine(); 
+       String direccionSiguiente = "192.168.0.100"; 
+       
         //indica si sera el almacen que va iniciar los transportes
         BufferedReader flagDespacho= new BufferedReader(new InputStreamReader(System.in));
         System.out.println("Atender Despacho ? Indique Si = 1  No =0 *Iniciar Transporte* ");    
         String IniciarDespacho = flagDespacho.readLine(); 
-        int numIniciarDespacho = Integer.parseInt(IniciarDespacho);
+//        int numIniciarDespacho = Integer.parseInt(IniciarDespacho);
+        int numIniciarDespacho = 0;
         
 //        servidor.Servidor ser = new Servidor(numPuertoServidor);
 //        ser.iniciarConexionServer();
        HiloServidor hiloSer= new HiloServidor(numPuertoServidor,numIniciarDespacho);     
-        HiloCliente hiloCli = new HiloCliente(numPuertoServidor, numPuertoSiguiente, direccionSiguiente);
-       hiloCli.start();
+        HiloCliente hiloCli = new HiloCliente(numPuertoServidor, numPuertoSiguiente, direccionSiguiente,numIniciarDespacho);
+    
        hiloSer.start();// falta los mensajes
+          hiloCli.start();
        
       // System.out.println("mensaje que circula por el anillo desde el tranporte"+ hiloCli.mensajeHaciaServidor);
     }
