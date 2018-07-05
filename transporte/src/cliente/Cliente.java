@@ -4,6 +4,7 @@ import java.io.*;
 import java.net.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import rmiexample.RMIClientExample;
 import transporte.HiloCliente;
 
 public class Cliente {
@@ -55,7 +56,8 @@ public class Cliente {
      * @throws Exception 
      */
     public void iniciarConexionCliente() throws Exception {
-    	boolean exit=false;//bandera para controlar ciclo del programa        
+    	boolean exit=false;//bandera para controlar ciclo del programa   
+         RMIClientExample rmiCli = new RMIClientExample();
          try {  
            while (cont<=5)
             { 
@@ -125,6 +127,8 @@ public class Cliente {
                         else{
                             mensajeHaciaServidor= enviarCliente( output,"espero mi mensaje");
                         }
+                  rmiCli.actualizar(myIP);
+                        
 //                    }
                     //para que transporte sepa origen destino del mensaje
          /***********************************************************************/           
@@ -182,7 +186,6 @@ public class Cliente {
                 System.out.println("No se pudo recibir, hay un error "+ex);
             }
          
-
            
         }
           public Recibir(BufferedReader input, PrintStream output, Socket socket) {
@@ -232,6 +235,7 @@ public class Cliente {
                     //            request = brRequest.readLine();
                     output.flush();
                     output.println(request);
+                 
 
        return request;
  }
